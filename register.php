@@ -5,10 +5,9 @@ include 'config/database.php';
 
 if(isset($_POST['register']))
 {
-    $fullname = mysqli_real_escape_string($conn, $_POST['fullname']);
+    $full_name = mysqli_real_escape_string($conn, $_POST['full_name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $mobile = mysqli_real_escape_string($conn, $_POST['mobile']);
-    $college = mysqli_real_escape_string($conn, $_POST['college']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
     $course = mysqli_real_escape_string($conn, $_POST['course']);
     $year = mysqli_real_escape_string($conn, $_POST['year']);
 
@@ -22,7 +21,7 @@ if(isset($_POST['register']))
     else
     {
         // Check email already exists
-        $check = mysqli_query($conn, "SELECT * FROM users WHERE email='$email'");
+        $check = mysqli_query($conn, "SELECT * FROM students WHERE email='$email'");
 
         if(mysqli_num_rows($check) > 0)
         {
@@ -32,10 +31,10 @@ if(isset($_POST['register']))
         {
             $hashPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            $insert = "INSERT INTO users
-            (fullname,email,mobile,college,course,study_year,password)
+            $insert = "INSERT INTO students
+            (full_name,email,phone,course,year,password)
             VALUES
-            ('$fullname','$email','$mobile','$college','$course','$year','$hashPassword')";
+            ('$full_name','$email','$phone','$course','$year','$hashPassword')";
 
             if(mysqli_query($conn, $insert))
             {
@@ -98,7 +97,7 @@ Discover academic events from colleges across India.
 
 </div>
 
-<form action="" method="POST">
+<form method="POST">
 
 <div class="row">
 
@@ -133,18 +132,6 @@ required>
 <input
 type="text"
 name="mobile"
-class="form-control"
-required>
-
-</div>
-
-<div class="col-md-6 mb-3">
-
-<label>College Name</label>
-
-<input
-type="text"
-name="college"
 class="form-control"
 required>
 
@@ -221,6 +208,8 @@ I agree to the Terms & Conditions
 </div>
 
 <button
+type="submit"
+name="register"
 class="btn btn-primary w-100">
 
 Create Account
