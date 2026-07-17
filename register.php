@@ -1,5 +1,57 @@
+
 <?php
+
 include 'config/database.php';
+
+if(isset($_POST['register']))
+{
+    $fullname = mysqli_real_escape_string($conn, $_POST['fullname']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $mobile = mysqli_real_escape_string($conn, $_POST['mobile']);
+    $college = mysqli_real_escape_string($conn, $_POST['college']);
+    $course = mysqli_real_escape_string($conn, $_POST['course']);
+    $year = mysqli_real_escape_string($conn, $_POST['year']);
+
+    $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
+
+    if($password != $confirm_password)
+    {
+        echo "<script>alert('Passwords do not match');</script>";
+    }
+    else
+    {
+        // Check email already exists
+        $check = mysqli_query($conn, "SELECT * FROM users WHERE email='$email'");
+
+        if(mysqli_num_rows($check) > 0)
+        {
+            echo "<script>alert('Email already registered');</script>";
+        }
+        else
+        {
+            $hashPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            $insert = "INSERT INTO users
+            (fullname,email,mobile,college,course,study_year,password)
+            VALUES
+            ('$fullname','$email','$mobile','$college','$course','$year','$hashPassword')";
+
+            if(mysqli_query($conn, $insert))
+            {
+                echo "<script>
+                alert('Registration Successful');
+                window.location='login.php';
+                </script>";
+            }
+            else
+            {
+                echo "<script>alert('Something went wrong');</script>";
+            }
+        }
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
