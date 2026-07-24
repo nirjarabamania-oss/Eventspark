@@ -1,3 +1,57 @@
+
+<?php
+
+include 'config/database.php';
+
+if(isset($_POST['register']))
+{
+    $full_name = mysqli_real_escape_string($conn, $_POST['full_name']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+    $course = mysqli_real_escape_string($conn, $_POST['course']);
+    $year = mysqli_real_escape_string($conn, $_POST['year']);
+
+    $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
+
+    if($password != $confirm_password)
+    {
+        echo "<script>alert('Passwords do not match');</script>";
+    }
+    else
+    {
+        // Check email already exists
+        $check = mysqli_query($conn, "SELECT * FROM students WHERE email='$email'");
+
+        if(mysqli_num_rows($check) > 0)
+        {
+            echo "<script>alert('Email already registered');</script>";
+        }
+        else
+        {
+            $hashPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            $insert = "INSERT INTO students
+            (full_name,email,phone,course,year,password)
+            VALUES
+            ('$full_name','$email','$phone','$course','$year','$hashPassword')";
+
+            if(mysqli_query($conn, $insert))
+            {
+                echo "<script>
+                alert('Registration Successful');
+                window.location='login.php';
+                </script>";
+            }
+            else
+            {
+                echo "<script>alert('Something went wrong');</script>";
+            }
+        }
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,7 +97,7 @@ Discover academic events from colleges across India.
 
 </div>
 
-<form action="" method="POST">
+<form method="POST">
 
 <div class="row">
 
@@ -78,18 +132,6 @@ required>
 <input
 type="text"
 name="mobile"
-class="form-control"
-required>
-
-</div>
-
-<div class="col-md-6 mb-3">
-
-<label>College Name</label>
-
-<input
-type="text"
-name="college"
 class="form-control"
 required>
 
@@ -166,6 +208,8 @@ I agree to the Terms & Conditions
 </div>
 
 <button
+type="submit"
+name="register"
 class="btn btn-primary w-100">
 
 Create Account
