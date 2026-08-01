@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("../config/db.php");
+include("../config/database.php");
 
 // Check Login
 if (!isset($_SESSION['student_id'])) {
