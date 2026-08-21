@@ -1,86 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+include("config/database.php");
+include("includes/functions.php");
+$totalEvents = getTotalEvents($conn);
+$totalColleges = getTotalColleges($conn);
+$totalCategories = getTotalCategories($conn);
+$categories = getCategories($conn);
+$upcomingEvents = getUpcomingEvents($conn);
+$colleges = getFeaturedColleges($conn);
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+?>
 
-    <title>EventSpark | Discover Study Events</title>
+<?php include("includes/header.php"); ?>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<?php include("includes/navbar.php"); ?>
 
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
-
-<body>
-
-<!-- ================= NAVBAR ================= -->
-
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
-
-    <div class="container">
-
-        <a class="navbar-brand fw-bold fs-3 text-primary" href="#">
-            <i class="bi bi-mortarboard-fill"></i>
-            EventSpark
-        </a>
-
-        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-
-            <ul class="navbar-nav mx-auto">
-
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Home</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Events</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Study Areas</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Colleges</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-
-            </ul>
-
-            <a href="login.php" class="btn btn-outline-primary me-2">
-                Login
-            </a>
-
-            <a href="register.php" class="btn btn-primary">
-                Register
-            </a>
-
-        </div>
-
-    </div>
-
-</nav>
 
 <!-- ================= HERO SECTION ================= -->
 
@@ -121,21 +54,21 @@
 
                     <div class="stat">
 
-                        <h3>500+</h3>
+                        <h3><?php echo $totalEvents; ?>+</h3>
                         <p>Events</p>
 
                     </div>
 
                     <div class="stat">
 
-                        <h3>100+</h3>
+                        <h3><?php echo $totalEvents; ?>+</h3>
                         <p>Colleges</p>
 
                     </div>
 
                     <div class="stat">
 
-                        <h3>50+</h3>
+                        <h3>><?php echo $totalCategories; ?>+</h3>
                         <p>Study Areas</p>
 
                     </div>
@@ -156,6 +89,7 @@
     </div>
 
 </section>
+
 <!-- ================= SEARCH SECTION ================= -->
 
 <section class="search-section py-5">
@@ -164,53 +98,78 @@
 
         <div class="search-box shadow">
 
-            <div class="row g-3">
+            <form action="events.php" method="GET">
 
-                <div class="col-lg-4">
+                <div class="row g-3">
 
-                    <input type="text"
-                           class="form-control form-control-lg"
-                           placeholder="Search Events">
+                    <!-- Search by event title -->
+
+                    <div class="col-lg-4">
+
+                        <input type="text"
+                               name="search"
+                               class="form-control form-control-lg"
+                               placeholder="Search Events">
+
+                    </div>
+
+
+                    <!-- Category -->
+
+                    <div class="col-lg-3">
+
+                        <select name="category"
+                                class="form-select form-select-lg">
+
+                            <option value="">
+                                Select Category
+                            </option>
+
+                            <?php foreach ($categories as $category): ?>
+
+                                <option value="<?php echo htmlspecialchars($category['category_id']); ?>">
+
+                                    <?php echo htmlspecialchars($category['category_name']); ?>
+
+                                </option>
+
+                            <?php endforeach; ?>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- City -->
+
+                    <div class="col-lg-3">
+
+                        <input type="text"
+                               name="city"
+                               class="form-control form-control-lg"
+                               placeholder="Enter City">
+
+                    </div>
+
+
+                    <!-- Search button -->
+
+                    <div class="col-lg-2 d-grid">
+
+                        <button type="submit"
+                                class="btn btn-primary btn-lg">
+
+                            <i class="bi bi-search"></i>
+
+                            Search
+
+                        </button>
+
+                    </div>
 
                 </div>
 
-                <div class="col-lg-3">
-
-                    <select class="form-select form-select-lg">
-
-                        <option>Select Study Area</option>
-                        <option>Computer Science</option>
-                        <option>Artificial Intelligence</option>
-                        <option>Engineering</option>
-                        <option>Commerce</option>
-                        <option>Management</option>
-                        <option>Medical</option>
-
-                    </select>
-
-                </div>
-
-                <div class="col-lg-3">
-
-                    <input type="text"
-                           class="form-control form-control-lg"
-                           placeholder="Enter City">
-
-                </div>
-
-                <div class="col-lg-2 d-grid">
-
-                    <button class="btn btn-primary btn-lg">
-
-                        <i class="bi bi-search"></i>
-
-                        Search
-
-                    </button>
-
-                </div>
-
-            </div>
+            </form>
 
         </div>
 
@@ -227,138 +186,51 @@
         <div class="text-center mb-5">
 
             <h2 class="fw-bold">
-
                 Explore by Study Interest
-
             </h2>
 
             <p class="text-muted">
-
                 Find events related to your academic field.
-
             </p>
 
         </div>
 
         <div class="row g-4">
 
-            <div class="col-lg-3 col-md-6">
+            <?php foreach ($categories as $category): ?>
 
-                <div class="category-card">
+                <div class="col-lg-3 col-md-6">
 
-                    <i class="bi bi-laptop"></i>
+                    <div class="category-card">
 
-                    <h4>Computer Science</h4>
+                        <i class="bi bi-calendar-event"></i>
 
-                    <p>Hackathons, coding contests and workshops.</p>
+                        <h4>
+                            <?php echo htmlspecialchars($category['category_name']); ?>
+                        </h4>
 
-                </div>
+                        <p>
+                            Explore
+                            <?php echo htmlspecialchars($category['category_name']); ?>
+                            events.
+                        </p>
 
-            </div>
+                        <a href="events.php?category=<?php echo urlencode($category['category_id']); ?>"
+                           class="stretched-link">
+                        </a>
 
-            <div class="col-lg-3 col-md-6">
-
-                <div class="category-card">
-
-                    <i class="bi bi-cpu"></i>
-
-                    <h4>Artificial Intelligence</h4>
-
-                    <p>AI seminars and machine learning events.</p>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="category-card">
-
-                    <i class="bi bi-gear-fill"></i>
-
-                    <h4>Engineering</h4>
-
-                    <p>Technical exhibitions and innovation fairs.</p>
+                    </div>
 
                 </div>
 
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="category-card">
-
-                    <i class="bi bi-graph-up-arrow"></i>
-
-                    <h4>Management</h4>
-
-                    <p>Leadership and business workshops.</p>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="category-card">
-
-                    <i class="bi bi-bank"></i>
-
-                    <h4>Commerce</h4>
-
-                    <p>Finance, accounting and entrepreneurship.</p>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="category-card">
-
-                    <i class="bi bi-heart-pulse-fill"></i>
-
-                    <h4>Medical</h4>
-
-                    <p>Medical conferences and healthcare seminars.</p>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="category-card">
-
-                    <i class="bi bi-shield-lock-fill"></i>
-
-                    <h4>Cyber Security</h4>
-
-                    <p>Ethical hacking and cyber awareness events.</p>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="category-card">
-
-                    <i class="bi bi-bar-chart-fill"></i>
-
-                    <h4>Data Science</h4>
-
-                    <p>Analytics, Python and big data workshops.</p>
-
-                </div>
-
-            </div>
+            <?php endforeach; ?>
 
         </div>
 
     </div>
 
 </section>
+
 <!-- ================= UPCOMING EVENTS ================= -->
 
 <section class="events py-5">
@@ -375,39 +247,64 @@
 
         </div>
 
-        <div class="row g-4">
+       <div class="row g-4">
 
-            <!-- Event 1 -->
+    <?php if (!empty($upcomingEvents)): ?>
+
+        <?php foreach ($upcomingEvents as $event): ?>
+
             <div class="col-lg-4 col-md-6">
 
                 <div class="card event-card h-100">
 
-                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800"
-                         class="card-img-top">
+                    <?php if (!empty($event['poster'])): ?>
+
+                        <img src="uploads/event_posters/<?php echo htmlspecialchars($event['poster']); ?>"
+                             class="card-img-top"
+                             alt="<?php echo htmlspecialchars($event['event_title']); ?>">
+
+                    <?php else: ?>
+
+                        <div class="event-placeholder">
+                            <i class="bi bi-calendar-event"></i>
+                        </div>
+
+                    <?php endif; ?>
+
 
                     <div class="card-body">
 
-                        <span class="badge bg-primary mb-2">Workshop</span>
+                        <span class="badge bg-primary mb-2">
+                            <?php echo htmlspecialchars($event['category_name']); ?>
+                        </span>
 
                         <h5 class="card-title">
-                            AI & Machine Learning Workshop
+                            <?php echo htmlspecialchars($event['event_title']); ?>
                         </h5>
 
                         <p class="text-muted">
                             <i class="bi bi-calendar"></i>
-                            15 August 2026
+                            <?php echo date("d F Y", strtotime($event['event_date'])); ?>
                         </p>
 
                         <p class="text-muted">
                             <i class="bi bi-geo-alt"></i>
-                            PDEU, Gandhinagar
+                            <?php echo htmlspecialchars($event['venue']); ?>,
+                            <?php echo htmlspecialchars($event['city']); ?>
                         </p>
 
-                        <p class="text-muted">
-                            Registration closes on 10 August
-                        </p>
+                        <?php if (!empty($event['registration_deadline'])): ?>
 
-                        <a href="#" class="btn btn-primary w-100">
+                            <p class="text-muted">
+                                <i class="bi bi-clock"></i>
+                                Registration closes on
+                                <?php echo date("d F", strtotime($event['registration_deadline'])); ?>
+                            </p>
+
+                        <?php endif; ?>
+
+                        <a href="student/event_details.php?id=<?php echo $event['event_id']; ?>"
+                           class="btn btn-primary w-100">
                             View Details
                         </a>
 
@@ -417,222 +314,29 @@
 
             </div>
 
-            <!-- Event 2 -->
+        <?php endforeach; ?>
 
-            <div class="col-lg-4 col-md-6">
+    <?php else: ?>
 
-                <div class="card event-card h-100">
+        <div class="col-12">
 
-                    <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800"
-                         class="card-img-top">
+            <div class="text-center py-5">
 
-                    <div class="card-body">
+                <i class="bi bi-calendar-x fs-1 text-muted"></i>
 
-                        <span class="badge bg-success mb-2">
-                            Seminar
-                        </span>
+                <h5 class="mt-3">No Upcoming Events</h5>
 
-                        <h5>
-                            Career Guidance Seminar
-                        </h5>
-
-                        <p class="text-muted">
-                            <i class="bi bi-calendar"></i>
-                            20 August 2026
-                        </p>
-
-                        <p class="text-muted">
-                            <i class="bi bi-geo-alt"></i>
-                            CHARUSAT University
-                        </p>
-
-                        <p class="text-muted">
-                            Registration closes on 18 August
-                        </p>
-
-                        <a href="#" class="btn btn-primary w-100">
-                            View Details
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- Event 3 -->
-
-            <div class="col-lg-4 col-md-6">
-
-                <div class="card event-card h-100">
-
-                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800"
-                         class="card-img-top">
-
-                    <div class="card-body">
-
-                        <span class="badge bg-danger mb-2">
-                            Hackathon
-                        </span>
-
-                        <h5>
-                            National Coding Challenge
-                        </h5>
-
-                        <p class="text-muted">
-                            <i class="bi bi-calendar"></i>
-                            5 September 2026
-                        </p>
-
-                        <p class="text-muted">
-                            <i class="bi bi-geo-alt"></i>
-                            IIT Bombay
-                        </p>
-
-                        <p class="text-muted">
-                            Registration closes on 30 August
-                        </p>
-
-                        <a href="#" class="btn btn-primary w-100">
-                            View Details
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- Event 4 -->
-
-            <div class="col-lg-4 col-md-6">
-
-                <div class="card event-card h-100">
-
-                    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800"
-                         class="card-img-top">
-
-                    <div class="card-body">
-
-                        <span class="badge bg-warning text-dark mb-2">
-                            Webinar
-                        </span>
-
-                        <h5>
-                            Future of Cyber Security
-                        </h5>
-
-                        <p class="text-muted">
-                            <i class="bi bi-calendar"></i>
-                            25 August 2026
-                        </p>
-
-                        <p class="text-muted">
-                            <i class="bi bi-geo-alt"></i>
-                            Online
-                        </p>
-
-                        <p class="text-muted">
-                            Registration closes on 23 August
-                        </p>
-
-                        <a href="#" class="btn btn-primary w-100">
-                            View Details
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- Event 5 -->
-
-            <div class="col-lg-4 col-md-6">
-
-                <div class="card event-card h-100">
-
-                    <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800"
-                         class="card-img-top">
-
-                    <div class="card-body">
-
-                        <span class="badge bg-info mb-2">
-                            Conference
-                        </span>
-
-                        <h5>
-                            National Research Conference
-                        </h5>
-
-                        <p class="text-muted">
-                            <i class="bi bi-calendar"></i>
-                            18 September 2026
-                        </p>
-
-                        <p class="text-muted">
-                            <i class="bi bi-geo-alt"></i>
-                            NIT Trichy
-                        </p>
-
-                        <p class="text-muted">
-                            Registration closes on 12 September
-                        </p>
-
-                        <a href="#" class="btn btn-primary w-100">
-                            View Details
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- Event 6 -->
-
-            <div class="col-lg-4 col-md-6">
-
-                <div class="card event-card h-100">
-
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800"
-                         class="card-img-top">
-
-                    <div class="card-body">
-
-                        <span class="badge bg-secondary mb-2">
-                            Workshop
-                        </span>
-
-                        <h5>
-                            UI/UX Design Bootcamp
-                        </h5>
-
-                        <p class="text-muted">
-                            <i class="bi bi-calendar"></i>
-                            30 August 2026
-                        </p>
-
-                        <p class="text-muted">
-                            <i class="bi bi-geo-alt"></i>
-                            DAIICT
-                        </p>
-
-                        <p class="text-muted">
-                            Registration closes on 25 August
-                        </p>
-
-                        <a href="#" class="btn btn-primary w-100">
-                            View Details
-                        </a>
-
-                    </div>
-
-                </div>
+                <p class="text-muted">
+                    There are currently no upcoming events available.
+                </p>
 
             </div>
 
         </div>
+
+    <?php endif; ?>
+
+</div>
 
     </div>
 
@@ -643,88 +347,72 @@
 
     <div class="container">
 
-        <div class="text-center mb-5">
-            <h2 class="fw-bold">Top Colleges Hosting Events</h2>
+        <div class="row g-4">
+
+            <?php if (!empty($colleges)): ?>
+
+        <?php foreach ($colleges as $college): ?>
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="card college-card h-100">
+
+                    <?php if (!empty($college['logo'])): ?>
+
+                        <img src="uploads/college_logos/<?php echo htmlspecialchars($college['logo']); ?>"
+                             class="card-img-top"
+                             alt="<?php echo htmlspecialchars($college['college_name']); ?>">
+
+                    <?php else: ?>
+
+                        <div class="college-placeholder">
+                            <i class="bi bi-building"></i>
+                        </div>
+
+                    <?php endif; ?>
+
+                    <div class="card-body">
+
+                        <h5 class="card-title">
+                            <?php echo htmlspecialchars($college['college_name']); ?>
+                        </h5>
+
+                        <?php if (!empty($college['university'])): ?>
+                            <p class="text-muted mb-1">
+                                <?php echo htmlspecialchars($college['university']); ?>
+                            </p>
+                        <?php endif; ?>
+
+                        <p class="text-muted">
+                            <i class="bi bi-geo-alt"></i>
+                            <?php echo htmlspecialchars($college['city']); ?>,
+                            <?php echo htmlspecialchars($college['state']); ?>
+                        </p>
+
+                        <a href="colleges.php?id=<?php echo $college['college_id']; ?>"
+                           class="btn btn-primary w-100">
+                            View College
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        <?php endforeach; ?>
+
+    <?php else: ?>
+
+        <div class="col-12 text-center">
             <p class="text-muted">
-                Discover academic events organized by leading institutions.
+                No colleges are currently available.
             </p>
         </div>
 
-        <div class="row g-4">
+    <?php endif; ?>
 
-            <!-- College 1 -->
-            <div class="col-lg-3 col-md-6">
-                <div class="college-card">
-                    <img src="https://images.unsplash.com/photo-1562774053-701939374585?w=700"
-                        class="img-fluid">
-
-                    <div class="p-4">
-                        <h5>IIT Bombay</h5>
-                        <p>Mumbai, Maharashtra</p>
-                        <span class="badge bg-primary">18 Events</span>
-
-                        <a href="#" class="btn btn-outline-primary w-100 mt-3">
-                            View Events
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- College 2 -->
-            <div class="col-lg-3 col-md-6">
-                <div class="college-card">
-                    <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=700"
-                        class="img-fluid">
-
-                    <div class="p-4">
-                        <h5>PDEU</h5>
-                        <p>Gandhinagar</p>
-                        <span class="badge bg-success">12 Events</span>
-
-                        <a href="#" class="btn btn-outline-primary w-100 mt-3">
-                            View Events
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- College 3 -->
-            <div class="col-lg-3 col-md-6">
-                <div class="college-card">
-                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=700"
-                        class="img-fluid">
-
-                    <div class="p-4">
-                        <h5>DAIICT</h5>
-                        <p>Gandhinagar</p>
-                        <span class="badge bg-warning text-dark">10 Events</span>
-
-                        <a href="#" class="btn btn-outline-primary w-100 mt-3">
-                            View Events
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- College 4 -->
-            <div class="col-lg-3 col-md-6">
-                <div class="college-card">
-                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=700"
-                        class="img-fluid">
-
-                    <div class="p-4">
-                        <h5>CHARUSAT</h5>
-                        <p>Anand</p>
-                        <span class="badge bg-danger">15 Events</span>
-
-                        <a href="#" class="btn btn-outline-primary w-100 mt-3">
-                            View Events
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+</div>
 
     </div>
 
@@ -853,237 +541,3 @@
     </div>
 
 </section>
-<!-- ================= TESTIMONIALS ================= -->
-
-<section class="testimonials py-5">
-
-    <div class="container">
-
-        <div class="text-center mb-5">
-            <h2 class="fw-bold">What Students Say</h2>
-            <p class="text-muted">
-                Students who discovered opportunities through EventSpark.
-            </p>
-        </div>
-
-        <div class="row g-4">
-
-            <div class="col-lg-4">
-                <div class="testimonial-card">
-
-                    <img src="https://randomuser.me/api/portraits/men/32.jpg">
-
-                    <h5>Rahul Patel</h5>
-
-                    <small>B.Tech Student</small>
-
-                    <p class="mt-3">
-                        "I found an AI workshop through EventSpark that helped me build my first machine learning project."
-                    </p>
-
-                    ⭐⭐⭐⭐⭐
-
-                </div>
-            </div>
-
-            <div class="col-lg-4">
-
-                <div class="testimonial-card">
-
-                    <img src="https://randomuser.me/api/portraits/women/44.jpg">
-
-                    <h5>Priya Shah</h5>
-
-                    <small>BCA Student</small>
-
-                    <p class="mt-3">
-                        "The platform is simple to use and helped me discover coding competitions from top colleges."
-                    </p>
-
-                    ⭐⭐⭐⭐⭐
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-4">
-
-                <div class="testimonial-card">
-
-                    <img src="https://randomuser.me/api/portraits/men/50.jpg">
-
-                    <h5>Meet Joshi</h5>
-
-                    <small>MCA Student</small>
-
-                    <p class="mt-3">
-                        "I like that registration happens through the official college website. It feels trustworthy."
-                    </p>
-
-                    ⭐⭐⭐⭐⭐
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ================= NEWSLETTER ================= -->
-
-<section class="newsletter">
-
-    <div class="container text-center">
-
-        <h2>Never Miss a Study Opportunity</h2>
-
-        <p>
-            Subscribe to receive updates about upcoming academic events.
-        </p>
-
-        <div class="row justify-content-center mt-4">
-
-            <div class="col-lg-6">
-
-                <div class="input-group">
-
-                    <input
-                        type="email"
-                        class="form-control"
-                        placeholder="Enter your email">
-
-                    <button class="btn btn-warning">
-
-                        Subscribe
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ================= FOOTER ================= -->
-
-<footer>
-
-<div class="container">
-
-<div class="row">
-
-<div class="col-lg-4">
-
-<h3>EventSpark</h3>
-
-<p>
-
-Helping students discover workshops, seminars, hackathons,
-career fairs and academic events organized by colleges.
-
-</p>
-
-</div>
-
-<div class="col-lg-2">
-
-<h5>Quick Links</h5>
-
-<ul>
-
-<li>Home</li>
-
-<li>Events</li>
-
-<li>Colleges</li>
-
-<li>About</li>
-
-<li>Contact</li>
-
-</ul>
-
-</div>
-
-<div class="col-lg-3">
-
-<h5>Popular Categories</h5>
-
-<ul>
-
-<li>Computer Science</li>
-
-<li>Artificial Intelligence</li>
-
-<li>Engineering</li>
-
-<li>Management</li>
-
-<li>Medical</li>
-
-</ul>
-
-</div>
-
-<div class="col-lg-3">
-
-<h5>Contact</h5>
-
-<p>Email : info@eventspark.com</p>
-
-<p>Phone : +91 9876543210</p>
-
-<p>Rajkot, Gujarat</p>
-
-<div class="social">
-
-<i class="bi bi-facebook"></i>
-
-<i class="bi bi-instagram"></i>
-
-<i class="bi bi-linkedin"></i>
-
-<i class="bi bi-twitter-x"></i>
-
-</div>
-
-</div>
-
-</div>
-
-<hr>
-
-<p class="text-center">
-
-© 2026 EventSpark. All Rights Reserved.
-
-</p>
-
-</div>
-
-</footer>
-
-<!-- Back To Top -->
-
-<button id="topBtn">
-
-<i class="bi bi-arrow-up"></i>
-
-</button>
-
-<!-- Bootstrap JS -->
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<script src="assets/js/script.js"></script>
-
-</body>
-
-</html>
