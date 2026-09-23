@@ -32,7 +32,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php#why">About</a>
+                    <a class="nav-link" href="about.php">About</a>
                 </li>
                 
             </ul>
