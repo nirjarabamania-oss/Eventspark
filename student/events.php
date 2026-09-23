@@ -1,13 +1,5 @@
 <?php
-session_start();
 include("../config/database.php");
-
-// Check login
-if (!isset($_SESSION['student_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
 
 // Get search values
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
