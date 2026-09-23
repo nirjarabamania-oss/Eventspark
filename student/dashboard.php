@@ -21,7 +21,7 @@ $res1 = mysqli_query($conn, $sql1);
 $totalEvents = mysqli_fetch_assoc($res1)['total'];
 
 // Registered Events
-$sql2 = "SELECT COUNT(*) AS total FROM event_registration WHERE student_id='$student_id'";
+$sql2 = "SELECT COUNT(*) AS total FROM registrations WHERE student_id='$student_id'";
 $res2 = mysqli_query($conn, $sql2);
 $totalRegistered = mysqli_fetch_assoc($res2)['total'];
 ?>

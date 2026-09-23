@@ -215,7 +215,7 @@ $colleges = getFeaturedColleges($conn);
                             events.
                         </p>
 
-                        <a href="events.php?category=<?php echo urlencode($category['category_id']); ?>"
+                        <a href="student/events.php?category=<?php echo urlencode($category['category_id']); ?>"
                            class="stretched-link">
                         </a>
 
