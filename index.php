@@ -179,7 +179,7 @@ $colleges = getFeaturedColleges($conn);
 
 <!-- ================= CATEGORIES ================= -->
 
-<section class="categories py-5">
+<section id="categories" class="categories py-5">
 
     <div class="container">
 
@@ -215,7 +215,7 @@ $colleges = getFeaturedColleges($conn);
                             events.
                         </p>
 
-                        <a href="events.php?category=<?php echo urlencode($category['category_id']); ?>"
+                        <a href="student/events.php?category=<?php echo urlencode($category['category_id']); ?>"
                            class="stretched-link">
                         </a>
 
@@ -343,7 +343,7 @@ $colleges = getFeaturedColleges($conn);
 </section>
 <!-- ================= TOP COLLEGES ================= -->
 
-<section class="colleges py-5">
+<section id="colleges" class="colleges py-5">
 
     <div class="container">
 
@@ -420,7 +420,7 @@ $colleges = getFeaturedColleges($conn);
 
 <!-- ================= WHY CHOOSE ================= -->
 
-<section class="why py-5">
+<section id="why" class="why py-5">
 
     <div class="container">
 
@@ -541,3 +541,4 @@ $colleges = getFeaturedColleges($conn);
     </div>
 
 </section>
+<?php include("includes/footer.php"); ?>

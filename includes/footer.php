@@ -1,6 +1,6 @@
 <!-- ================= FOOTER ================= -->
 
-<footer>
+<footer id="footer">
 
 <div class="container">
 

@@ -1,13 +1,5 @@
 <?php
-session_start();
 include("../config/database.php");
-
-// Check login
-if (!isset($_SESSION['student_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
 
 // Get search values
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
@@ -141,7 +133,7 @@ $result = mysqli_query($conn, $query);
             </style> 
         </head> 
     <body> 
-        <a href="dashboard.php" class="btn back">← Dashboard</a>
+        <a href="student/dashboard.php" class="btn back">← Dashboard</a>
         <h2>Available Events</h2> 
         <div class="container"> 
             <?php if(mysqli_num_rows($result)>0) 
