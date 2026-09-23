@@ -16,27 +16,27 @@
             <ul class="navbar-nav mx-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Home</a>
+                    <a class="nav-link active" href="index.php">Home</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Events</a>
+                    <a class="nav-link" href="student/events.php">Events</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Study Areas</a>
+                    <a class="nav-link" href="index.php#categories">Study Areas</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Colleges</a>
+                    <a class="nav-link" href="index.php#colleges">Colleges</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="index.php#why">About</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="index.php#footer">Contact</a>
                 </li>
 
             </ul>

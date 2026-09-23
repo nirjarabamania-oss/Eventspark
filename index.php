@@ -179,7 +179,7 @@ $colleges = getFeaturedColleges($conn);
 
 <!-- ================= CATEGORIES ================= -->
 
-<section class="categories py-5">
+<section id="categories" class="categories py-5">
 
     <div class="container">
 
@@ -343,7 +343,7 @@ $colleges = getFeaturedColleges($conn);
 </section>
 <!-- ================= TOP COLLEGES ================= -->
 
-<section class="colleges py-5">
+<section id="colleges" class="colleges py-5">
 
     <div class="container">
 
@@ -420,7 +420,7 @@ $colleges = getFeaturedColleges($conn);
 
 <!-- ================= WHY CHOOSE ================= -->
 
-<section class="why py-5">
+<section id="why" class="why py-5">
 
     <div class="container">
 
