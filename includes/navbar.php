@@ -51,21 +51,21 @@
 
         <li>
             <a class="dropdown-item"
-               href="student/login.php">
+               href="Eventspark/student/login.php">
                Student Login
             </a>
         </li>
 
         <li>
             <a class="dropdown-item"
-               href="college/login.php">
+               href="Eventspark/college/login.php">
                College Login
             </a>
         </li>
 
         <li>
             <a class="dropdown-item"
-               href="admin/login.php">
+               href="Eventspark/admin/login.php">
                Admin Login
             </a>
         </li>
@@ -88,14 +88,14 @@
 
         <li>
             <a class="dropdown-item"
-               href="student/register.php">
+               href="Eventspark/student/register.php">
                Student Register
             </a>
         </li>
 
         <li>
             <a class="dropdown-item"
-               href="college/register.php">
+               href="Eventspark/college/register.php">
                College Register
             </a>
         </li>
