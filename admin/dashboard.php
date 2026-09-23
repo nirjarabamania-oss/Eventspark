@@ -1,123 +1,379 @@
-<?php
+ <?php
+
 include("admin_auth.php");
-include("../includes/header.php");
+include("../config/database.php");
+
+/*
+|--------------------------------------------------------------------------
+| Get Counts
+|--------------------------------------------------------------------------
+*/
+
+$collegeQuery = mysqli_query($conn, "SELECT COUNT(*) AS total FROM colleges");
+$collegeCount = mysqli_fetch_assoc($collegeQuery)['total'];
+
+$studentQuery = mysqli_query($conn, "SELECT COUNT(*) AS total FROM students");
+$studentCount = mysqli_fetch_assoc($studentQuery)['total'];
+
+$eventQuery = mysqli_query($conn, "SELECT COUNT(*) AS total FROM events");
+$eventCount = mysqli_fetch_assoc($eventQuery)['total'];
+
+$categoryQuery = mysqli_query($conn, "SELECT COUNT(*) AS total FROM categories");
+$categoryCount = mysqli_fetch_assoc($categoryQuery)['total'];
+
+$registrationQuery = mysqli_query($conn, "SELECT COUNT(*) AS total FROM registrations");
+$registrationCount = mysqli_fetch_assoc($registrationQuery)['total'];
+
+/*
+|--------------------------------------------------------------------------
+| Admin Name
+|--------------------------------------------------------------------------
+*/
+
+$adminName = $_SESSION['username'] ?? 'Admin';
+
 ?>
 
-<div class="container-fluid">
-    <div class="row">
+<!DOCTYPE html>
+<html lang="en">
 
-        <!-- Sidebar -->
-        <div class="col-md-2 bg-dark text-white min-vh-100 p-3">
-            <h3 class="text-center">EventSpark</h3>
-            <hr>
+<head>
 
-            <ul class="nav flex-column">
-                <li class="nav-item mb-2">
-                    <a href="dashboard.php" class="nav-link text-white">🏠 Dashboard</a>
-                </li>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-                <li class="nav-item mb-2">
-                    <a href="colleges/view.php" class="nav-link text-white">🏫 Colleges</a>
-                </li>
+    <title>Admin Dashboard - EventSpark</title>
 
-                <li class="nav-item mb-2">
-                    <a href="events/view.php" class="nav-link text-white">🎉 Events</a>
-                </li>
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 
-                <li class="nav-item mb-2">
-                    <a href="students/view.php" class="nav-link text-white">👨‍🎓 Students</a>
-                </li>
+    <link rel="stylesheet" href="../assets/css/style.css">
 
-                <li class="nav-item mb-2">
-                    <a href="registrations/view.php" class="nav-link text-white">📝 Registrations</a>
-                </li>
+</head>
 
-                <li class="nav-item mt-4">
-                    <a href="logout.php" class="nav-link text-danger">🚪 Logout</a>
-                </li>
-            </ul>
+<body>
+
+<!-- Navbar -->
+
+<nav class="navbar navbar-dark bg-dark">
+
+    <div class="container-fluid">
+
+        <span class="navbar-brand mb-0 h1">
+            EventSpark Admin Panel
+        </span>
+
+        <div class="d-flex align-items-center">
+
+            <span class="text-white me-3">
+                Welcome, <?php echo htmlspecialchars($adminName); ?>
+            </span>
+
+            <a href="logout.php" class="btn btn-danger btn-sm">
+                Logout
+            </a>
+
         </div>
 
-        <!-- Main Content -->
-        <div class="col-md-10 p-4">
+    </div>
 
-            <h2>Welcome, <?php echo $_SESSION['username']; ?> 👋</h2>
-            <p class="text-muted">EventSpark Administration Panel</p>
+</nav>
 
-            <div class="row mt-4">
 
-                <div class="col-md-3 mb-4">
-                    <div class="card border-primary shadow">
-                        <div class="card-body text-center">
-                            <h5>Total Colleges</h5>
-                            <h2>--</h2>
-                            <a href="colleges/view.php" class="btn btn-primary btn-sm">Manage</a>
-                        </div>
-                    </div>
-                </div>
+<!-- Dashboard -->
 
-                <div class="col-md-3 mb-4">
-                    <div class="card border-success shadow">
-                        <div class="card-body text-center">
-                            <h5>Total Events</h5>
-                            <h2>--</h2>
-                            <a href="events/view.php" class="btn btn-success btn-sm">Manage</a>
-                        </div>
-                    </div>
-                </div>
+<div class="container-fluid mt-4">
 
-                <div class="col-md-3 mb-4">
-                    <div class="card border-warning shadow">
-                        <div class="card-body text-center">
-                            <h5>Total Students</h5>
-                            <h2>--</h2>
-                            <a href="students/view.php" class="btn btn-warning btn-sm">Manage</a>
-                        </div>
-                    </div>
-                </div>
+    <div class="mb-4">
 
-                <div class="col-md-3 mb-4">
-                    <div class="card border-danger shadow">
-                        <div class="card-body text-center">
-                            <h5>Registrations</h5>
-                            <h2>--</h2>
-                            <a href="registrations/view.php" class="btn btn-danger btn-sm">Manage</a>
-                        </div>
-                    </div>
+        <h2>Admin Dashboard</h2>
+
+        <p class="text-muted">
+            Manage EventSpark from the Admin Panel.
+        </p>
+
+    </div>
+
+
+    <!-- Statistics -->
+
+    <div class="row g-4 mb-5">
+
+
+        <!-- Colleges -->
+
+        <div class="col-md-4 col-lg-3">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Colleges
+                    </h5>
+
+                    <h2 class="fw-bold">
+                        <?php echo $collegeCount; ?>
+                    </h2>
+
+                    <p class="text-muted">
+                        Total registered colleges
+                    </p>
+
+                    <a
+                        href="colleges/view.php"
+                        class="btn btn-dark w-100"
+                    >
+                        Manage Colleges
+                    </a>
+
                 </div>
 
             </div>
 
-            <div class="card shadow mt-3">
-                <div class="card-header bg-dark text-white">
-                    Admin Panel
-                </div>
+        </div>
+
+
+        <!-- Students -->
+
+        <div class="col-md-4 col-lg-3">
+
+            <div class="card shadow-sm h-100">
+
                 <div class="card-body">
-                    <p>Welcome to the EventSpark Admin Dashboard.</p>
 
-                    <p>
-                        From here you will be able to:
-                    </p>
+                    <h5 class="card-title">
+                        Students
+                    </h5>
 
-                    <ul>
-                        <li>Manage Colleges</li>
-                        <li>Manage Events</li>
-                        <li>Manage Students</li>
-                        <li>View Event Registrations</li>
-                    </ul>
+                    <h2 class="fw-bold">
+                        <?php echo $studentCount; ?>
+                    </h2>
 
                     <p class="text-muted">
-                        Statistics will automatically appear here once data is added to the system.
+                        Registered students
                     </p>
 
+                    <a
+                        href="students/view.php"
+                        class="btn btn-dark w-100"
+                    >
+                        Manage Students
+                    </a>
+
                 </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Events -->
+
+        <div class="col-md-4 col-lg-3">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Events
+                    </h5>
+
+                    <h2 class="fw-bold">
+                        <?php echo $eventCount; ?>
+                    </h2>
+
+                    <p class="text-muted">
+                        Total events
+                    </p>
+
+                    <a
+                        href="events/view.php"
+                        class="btn btn-dark w-100"
+                    >
+                        Manage Events
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Categories -->
+
+        <div class="col-md-4 col-lg-3">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Categories
+                    </h5>
+
+                    <h2 class="fw-bold">
+                        <?php echo $categoryCount; ?>
+                    </h2>
+
+                    <p class="text-muted">
+                        Event categories
+                    </p>
+
+                    <a
+                        href="categories/view.php"
+                        class="btn btn-primary w-100"
+                    >
+                        Manage Categories
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Registrations -->
+
+        <div class="col-md-4 col-lg-3">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Registrations
+                    </h5>
+
+                    <h2 class="fw-bold">
+                        <?php echo $registrationCount; ?>
+                    </h2>
+
+                    <p class="text-muted">
+                        Student event registrations
+                    </p>
+
+                    <a
+                        href="registrations/view.php"
+                        class="btn btn-info w-100"
+                    >
+                        View Registrations
+                    </a>
+
+                </div>
+
             </div>
 
         </div>
 
     </div>
+
+
+    <!-- Management Section -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header bg-dark text-white">
+
+            <h4 class="mb-0">
+                Management
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+
+                <!-- Colleges -->
+
+                <div class="col-md-4">
+
+                    <a
+                        href="colleges/view.php"
+                        class="btn btn-outline-dark w-100 py-3"
+                    >
+                        Manage Colleges
+                    </a>
+
+                </div>
+
+
+                <!-- Students -->
+
+                <div class="col-md-4">
+
+                    <a
+                        href="students/view.php"
+                        class="btn btn-outline-dark w-100 py-3"
+                    >
+                        Manage Students
+                    </a>
+
+                </div>
+
+
+                <!-- Events -->
+
+                <div class="col-md-4">
+
+                    <a
+                        href="events/view.php"
+                        class="btn btn-outline-dark w-100 py-3"
+                    >
+                        Manage Events
+                    </a>
+
+                </div>
+
+
+                <!-- Categories -->
+
+                <div class="col-md-4">
+
+                    <a
+                        href="categories/view.php"
+                        class="btn btn-outline-primary w-100 py-3"
+                    >
+                        Manage Categories
+                    </a>
+
+                </div>
+
+
+                <!-- Registrations -->
+
+                <div class="col-md-4">
+
+                    <a
+                        href="registrations/view.php"
+                        class="btn btn-outline-info w-100 py-3"
+                    >
+                        View Registrations
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
 
-<?php
-include("../includes/footer.php");
-?>
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+
+</html>
