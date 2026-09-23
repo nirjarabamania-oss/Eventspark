@@ -541,3 +541,4 @@ $colleges = getFeaturedColleges($conn);
     </div>
 
 </section>
+<?php include("includes/footer.php"); ?>

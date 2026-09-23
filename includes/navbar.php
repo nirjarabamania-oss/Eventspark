@@ -34,11 +34,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="index.php#why">About</a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php#footer">Contact</a>
-                </li>
-
+                
             </ul>
 
 <div class="dropdown me-2">
