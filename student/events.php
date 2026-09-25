@@ -27,7 +27,7 @@ $query = "SELECT
           INNER JOIN colleges c
               ON e.college_id = c.college_id
 
-          WHERE e.status = 'Approved'
+          WHERE e.status = 'Open'
             AND e.event_date >= CURDATE()";
 
 
