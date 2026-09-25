@@ -6,7 +6,9 @@ $totalColleges = getTotalColleges($conn);
 $totalCategories = getTotalCategories($conn);
 $categories = getCategories($conn);
 $upcomingEvents = getUpcomingEvents($conn);
-$colleges = getFeaturedColleges($conn);
+$colleges = getFeaturedColleges($conn, "SELECT college_id, college_name, university, city, state, logo
+     FROM colleges
+     ORDER BY college_name ASC");
 
 ?>
 
