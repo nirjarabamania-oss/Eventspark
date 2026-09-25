@@ -93,7 +93,7 @@ $totalRegistered = mysqli_fetch_assoc($res2)['total'];
 <br><br>
 
 <a class="btn" href="events.php">View Events</a>
-<a class="btn" href="my_registrations.php">My Events</a>
+<a class="btn" href="my_registration.php">My Events</a>
 <a class="btn" href="profile.php">Profile</a>
 <a class="btn" href="logout.php">Logout</a>
 

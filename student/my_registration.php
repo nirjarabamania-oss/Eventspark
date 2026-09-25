@@ -169,7 +169,6 @@ echo "<tr>
 </html>
 
 <?php
-session_start();
 include("../config/database.php");
 
 // Check Login
