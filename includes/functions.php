@@ -4,7 +4,7 @@ function getTotalEvents($conn)
 {
     $query = "SELECT COUNT(*) AS total
               FROM events
-              WHERE status = 'Approved'";
+              WHERE status = 'Open'";
 
     $result = mysqli_query($conn, $query);
 
