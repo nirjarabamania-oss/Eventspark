@@ -45,7 +45,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php#colleges">
+                    <a class="nav-link" href="colleges.php">
                         Colleges
                     </a>
                 </li>
