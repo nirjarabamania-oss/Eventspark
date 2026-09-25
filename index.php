@@ -38,18 +38,6 @@ $colleges = getFeaturedColleges($conn);
 
                 </p>
 
-                <div class="mt-4">
-
-                    <a href="#" class="btn btn-primary btn-lg me-3">
-                        Explore Events
-                    </a>
-
-                    <a href="#" class="btn btn-outline-light btn-lg">
-                        Find Colleges
-                    </a>
-
-                </div>
-
                 <div class="stats-box">
 
                     <div class="stat">
@@ -61,7 +49,7 @@ $colleges = getFeaturedColleges($conn);
 
                     <div class="stat">
 
-                        <h3><?php echo $totalEvents; ?>+</h3>
+                        <h3><?php echo $totalColleges; ?>+</h3>
                         <p>Colleges</p>
 
                     </div>
