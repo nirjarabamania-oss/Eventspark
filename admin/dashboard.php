@@ -366,8 +366,36 @@ $adminName = $_SESSION['username'] ?? 'Admin';
         </div>
 
     </div>
+    <div class="col-md-4">
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h5 class="card-title">
+                <i class="bi bi-bar-chart-fill"></i>
+                Reports
+            </h5>
+
+            <p class="card-text">
+                View college, student, event and registration reports.
+            </p>
+
+            <a href="reports/index.php"
+               class="btn btn-primary">
+
+                View Reports
+
+            </a>
+
+        </div>
+
+    </div>
 
 </div>
+
+</div>
+
 
 
 <script
