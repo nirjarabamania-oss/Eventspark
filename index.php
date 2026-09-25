@@ -86,7 +86,7 @@ $colleges = getFeaturedColleges($conn);
 
         <div class="search-box shadow">
 
-            <form action="events.php" method="GET">
+            <form action="student/events.php" method="GET">
 
                 <div class="row g-3">
 
