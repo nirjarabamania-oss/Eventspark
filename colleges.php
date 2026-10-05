@@ -1,4 +1,4 @@
-<?php
+ <?php
 include("config/database.php");
 
 $college_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -14,9 +14,15 @@ if ($college_id > 0) {
                 college_id,
                 college_name,
                 university,
+                established_year,
+                email,
+                phone,
+                website,
+                address,
                 city,
                 state,
-                logo
+                logo,
+                banner
               FROM colleges
               WHERE college_id = $college_id
               LIMIT 1";
@@ -32,6 +38,27 @@ if ($college_id > 0) {
     }
 
     $college = mysqli_fetch_assoc($result);
+
+
+    /* =====================================================
+       COLLEGE GALLERY
+       ===================================================== */
+
+    $galleryQuery = "SELECT
+                        image_id,
+                        college_id,
+                        image,
+                        caption,
+                        uploaded_at
+                     FROM college_gallery
+                     WHERE college_id = $college_id
+                     ORDER BY image_id DESC";
+
+    $galleryResult = mysqli_query($conn, $galleryQuery);
+
+    if (!$galleryResult) {
+        die("Gallery Database Error: " . mysqli_error($conn));
+    }
 }
 
 
@@ -84,6 +111,8 @@ else {
 
     <div class="container py-4">
 
+        <!-- BACK BUTTON -->
+
         <div class="mb-4">
 
             <a href="colleges.php"
@@ -97,6 +126,10 @@ else {
         </div>
 
 
+        <!-- =================================================
+             COLLEGE INFORMATION
+             ================================================= -->
+
         <div class="row g-4 align-items-start">
 
             <!-- College Logo -->
@@ -108,7 +141,7 @@ else {
                     <?php if (!empty($college['logo'])): ?>
 
                         <img
-                            src="uploads/college_logos/<?php echo htmlspecialchars($college['logo']); ?>"
+                            src="assets/uploads/colleges/logos/<?php echo htmlspecialchars($college['logo']); ?>"
                             class="card-img-top"
                             alt="<?php echo htmlspecialchars($college['college_name']); ?>"
                             style="height:350px; object-fit:cover;"
@@ -173,6 +206,30 @@ else {
                         <?php endif; ?>
 
 
+                        <?php if (!empty($college['established_year'])): ?>
+
+                            <div class="d-flex mb-4">
+
+                                <div class="me-3">
+                                    <i class="bi bi-calendar-check-fill
+                                              text-primary fs-3"></i>
+                                </div>
+
+                                <div>
+                                    <small class="text-muted">
+                                        Established Year
+                                    </small>
+
+                                    <h5 class="mb-0">
+                                        <?php echo htmlspecialchars($college['established_year']); ?>
+                                    </h5>
+                                </div>
+
+                            </div>
+
+                        <?php endif; ?>
+
+
                         <?php if (!empty($college['city']) || !empty($college['state'])): ?>
 
                             <div class="d-flex mb-4">
@@ -198,6 +255,111 @@ else {
                                         <?php echo htmlspecialchars($college['state']); ?>
 
                                     </h5>
+                                </div>
+
+                            </div>
+
+                        <?php endif; ?>
+
+
+                        <?php if (!empty($college['address'])): ?>
+
+                            <div class="d-flex mb-4">
+
+                                <div class="me-3">
+                                    <i class="bi bi-house-fill
+                                              text-primary fs-3"></i>
+                                </div>
+
+                                <div>
+                                    <small class="text-muted">
+                                        Address
+                                    </small>
+
+                                    <h5 class="mb-0">
+                                        <?php echo htmlspecialchars($college['address']); ?>
+                                    </h5>
+                                </div>
+
+                            </div>
+
+                        <?php endif; ?>
+
+
+                        <?php if (!empty($college['email'])): ?>
+
+                            <div class="d-flex mb-4">
+
+                                <div class="me-3">
+                                    <i class="bi bi-envelope-fill
+                                              text-primary fs-3"></i>
+                                </div>
+
+                                <div>
+                                    <small class="text-muted">
+                                        Email
+                                    </small>
+
+                                    <h5 class="mb-0">
+                                        <?php echo htmlspecialchars($college['email']); ?>
+                                    </h5>
+                                </div>
+
+                            </div>
+
+                        <?php endif; ?>
+
+
+                        <?php if (!empty($college['phone'])): ?>
+
+                            <div class="d-flex mb-4">
+
+                                <div class="me-3">
+                                    <i class="bi bi-telephone-fill
+                                              text-primary fs-3"></i>
+                                </div>
+
+                                <div>
+                                    <small class="text-muted">
+                                        Phone
+                                    </small>
+
+                                    <h5 class="mb-0">
+                                        <?php echo htmlspecialchars($college['phone']); ?>
+                                    </h5>
+                                </div>
+
+                            </div>
+
+                        <?php endif; ?>
+
+
+                        <?php if (!empty($college['website'])): ?>
+
+                            <div class="d-flex mb-4">
+
+                                <div class="me-3">
+                                    <i class="bi bi-globe
+                                              text-primary fs-3"></i>
+                                </div>
+
+                                <div>
+                                    <small class="text-muted">
+                                        Website
+                                    </small>
+
+                                    <h5 class="mb-0">
+
+                                        <a href="<?php echo htmlspecialchars($college['website']); ?>"
+                                           target="_blank"
+                                           rel="noopener noreferrer">
+
+                                            Visit Website
+
+                                        </a>
+
+                                    </h5>
+
                                 </div>
 
                             </div>
@@ -231,6 +393,96 @@ else {
             </div>
 
         </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     COLLEGE GALLERY
+     ========================================================= -->
+
+<section class="py-5">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <span class="badge bg-primary px-3 py-2 mb-3">
+                College Gallery
+            </span>
+
+            <h2 class="fw-bold">
+                <?php echo htmlspecialchars($college['college_name']); ?> Gallery
+            </h2>
+
+            <p class="text-muted">
+                Explore photos and moments from the college.
+            </p>
+
+        </div>
+
+
+        <?php if (mysqli_num_rows($galleryResult) > 0): ?>
+
+            <div class="row g-4">
+
+                <?php while ($gallery = mysqli_fetch_assoc($galleryResult)): ?>
+
+                    <div class="col-lg-4 col-md-6">
+
+                        <div class="card border-0 shadow-sm h-100">
+
+                            <img
+                                src="assets/uploads/colleges/gallery/<?php echo htmlspecialchars($gallery['image']); ?>"
+                                class="card-img-top"
+                                alt="<?php echo htmlspecialchars(
+                                    !empty($gallery['caption'])
+                                    ? $gallery['caption']
+                                    : $college['college_name']
+                                ); ?>"
+                                style="height:250px; object-fit:cover;"
+                            >
+
+                            <?php if (!empty($gallery['caption'])): ?>
+
+                                <div class="card-body">
+
+                                    <p class="card-text mb-0 text-center">
+                                        <?php echo htmlspecialchars($gallery['caption']); ?>
+                                    </p>
+
+                                </div>
+
+                            <?php endif; ?>
+
+                        </div>
+
+                    </div>
+
+                <?php endwhile; ?>
+
+            </div>
+
+        <?php else: ?>
+
+            <div class="text-center py-5">
+
+                <i class="bi bi-images text-muted"
+                   style="font-size:60px;"></i>
+
+                <h4 class="mt-3">
+                    No Gallery Images
+                </h4>
+
+                <p class="text-muted">
+                    This college has not uploaded any gallery images yet.
+                </p>
+
+            </div>
+
+        <?php endif; ?>
 
     </div>
 
@@ -340,14 +592,22 @@ else {
             </h2>
 
             <p class="text-muted">
+
                 <?php
+
                 if ($search !== '') {
+
                     echo "Showing colleges matching \"" .
                          htmlspecialchars($search) . "\".";
+
                 } else {
+
                     echo "Browse all colleges registered on EventSpark.";
+
                 }
+
                 ?>
+
             </p>
 
         </div>
@@ -363,10 +623,11 @@ else {
 
                         <div class="card college-card h-100 shadow-sm">
 
+
                             <?php if (!empty($college['logo'])): ?>
 
                                 <img
-                                    src="uploads/college_logos/<?php echo htmlspecialchars($college['logo']); ?>"
+                                    src="assets/uploads/colleges/logos/<?php echo htmlspecialchars($college['logo']); ?>"
                                     class="card-img-top"
                                     alt="<?php echo htmlspecialchars($college['college_name']); ?>"
                                     style="height:220px; object-fit:cover;"
@@ -481,8 +742,6 @@ else {
 
 
 <?php include("includes/footer.php"); ?>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
