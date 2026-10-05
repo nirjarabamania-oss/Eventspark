@@ -150,6 +150,10 @@ mysqli_stmt_close($event_stmt);
                 📝 Registrations
             </a>
 
+            <a href="gallery/view.php">
+                🖼️ Gallery
+            </a>
+            
             <a href="logout.php"
                class="text-danger mt-4">
 
